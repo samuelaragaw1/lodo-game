@@ -1,0 +1,81 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+html {
+    height: 100%;
+}
+/*Fonts===========================================================*/
+@font-face {
+    font-family: "stylish";
+    src: url("fonts/font_1/Bungee_Shade/BungeeShade-Regular.ttf");
+}
+/*body pages*/
+.main_page {
+    background-image: url("images/bg.jpeg");
+    background-size: cover;
+    display: grid;
+    grid-template-rows: 25% 75%;
+    justify-items: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-family: stylish;
+}
+.game_page {
+    background-image: linear-gradient(0deg );
+    background-size: cover;
+    display: grid;
+    grid-template-rows: 25% 75%;
+    justify-items: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-family: stylish;
+}
+/*Main Page =======================================================*/
+#m_intro {
+    font-size: calc(3rem + 2vw);
+    color: black;
+    background-image: linear-gradient(0deg, red, purple, black);
+    background-clip: text;
+    color: transparent;
+}
+#m_option_con {
+    font-size: calc(1.5rem + 1vw);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid black;
+    background-color: rgb(18, 148, 83);
+}
+#m_game_name {
+    font-size: calc(3rem + 3vw);
+    background-image: linear-gradient(0deg, red, purple, black);
+    background-clip: text;
+    color: transparent;
+}
+/*Options =========================================================*/
+.m_option {
+    position: relative;
+    transition-duration: 0.6s;
+    cursor: pointer;
+}
+.m_option::before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    width: calc(20px + 1vw);
+    height: calc(20px + 1vw);
+    left: calc(-40px - 2vw);
+    top: 10px;
+    background-color: white;
+    transition-duration: 0.6s;
+}
+.m_option:hover::before {
+    left: calc(-30px - 1vw);
+}
+.m_option:active {
+    top: 10px;
+}
