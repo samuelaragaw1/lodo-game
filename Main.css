@@ -244,8 +244,21 @@ html {
 /*Entity =========================================================*/
 .entityClass {
     position: absolute;
-    height: 20px;
-    width: 20px;
+    height: 30px;
+    width: 30px;
     border-radius: 100%;
     left: 100px;
+    background-color: white;
+}
+.entityClass1 {
+    background-image: radial-gradient(red 3.75px,white 7.25px, red 8.85px, red 11.5px, black 12px);
+}
+.entityClass2 {
+    background-image: radial-gradient(green 3.75px,white 7.25px, green 8.85px, green 11.5px, black 12px);
+}
+.entityClass3 {
+    background-image: radial-gradient(yellow 3.75px,white 7.25px, yellow 8.85px,yellow 11.5px, black 12px);
+}
+.entityClass4 {
+    background-image: radial-gradient(blue 3.75px,white 7.25px, blue  8.85px, blue 11.5px, black 12px);
 }
