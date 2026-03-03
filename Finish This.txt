@@ -1,2 +1,2 @@
-- Finish the Entity generation
-- Finish the Entity animation 
+- Finish the Entity generation[Finished]
+- Finish the Entity animation[in process]

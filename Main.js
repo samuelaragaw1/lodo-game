@@ -6,22 +6,25 @@ const gameMenu = document.createElement("div");
 let numberOfPlayers = 0;
 
 //which actionListner is on
-let playerOne = false;
-let playerTwo = false;
-let playerThree = false;
-let playerFour = false;
+let playerAviable = [false, false, false, false];
+
+//player entity movable 
+// let entityMovable = [false, false, false, false];
 
 //what is the output each player perviose draw
-let playerOneDot = 0;
-let playerTwoDot = 0;
-let playerThreeDot = 0;
-let playerFourDot = 0;
+let playersDot = [0, 0, 0, 0];
 
 //the current position of entity
 let playerOnePostion = [0, 0, 0, 0];
 let playerTwoPosition  = [0, 0, 0, 0];
 let playerThreePosition  = [0, 0, 0, 0];
 let playerFourPosition = [0, 0, 0, 0];
+
+//which entity is movable
+let entityAviable  = [[false, false, false, false], 
+                      [false, false, false, false], 
+                      [false, false, false, false], 
+                      [false, false, false, false]];
 
 //making the game Name
 document.body.append(gameName);
@@ -40,6 +43,7 @@ gameMenu.innerHTML = `
 
 //making event Listner for game menu options
 document.querySelector("#one").addEventListener("click", ()=> {
+    numberOfPlayers = 2;
     goGame(2); 
     for (let i = 1; i <=2 ; i++) {
         makeEntity(i);
@@ -47,6 +51,7 @@ document.querySelector("#one").addEventListener("click", ()=> {
     gameRunner(2);
 });
 document.querySelector("#two").addEventListener("click", ()=> {
+    numberOfPlayers = 3;
     goGame(3);
     for (let i = 1; i <=3 ; i++) {
         makeEntity(i);
@@ -54,6 +59,7 @@ document.querySelector("#two").addEventListener("click", ()=> {
     gameRunner(3);
 });
 document.querySelector("#three").addEventListener("click", ()=> {
+    numberOfPlayers = 4;
     goGame(4);
     for (let i = 1; i <=4 ; i++) {
         makeEntity(i);
@@ -213,11 +219,10 @@ function makeDice(player, numberOfDot) {
         document.querySelector(`#rotationBox${player} .dice dot:nth-child(6)`).style.left = `17px`;
         document.querySelector(`#rotationBox${player} .dice dot:nth-child(6)`).style.top = `31px`;
     }
-
     return dice;
 }
 
-//Random function =================================================
+//Random function ==================================================
 function randomFunction(max) {
     return Math.floor(Math.random() * (max - 1 + 1)) + 1;
 }
@@ -228,16 +233,16 @@ function animateBox(boxNumber) {
     const box = document.querySelector(`#rotationBox${boxNumber-1}`); 
     box.style.animation =  `animationBox${boxNumber-1} 2.5s infinite`;
     if (boxNumber == 1) {
-        playerOne = true;
+        playerAviable[0] = true;
     }
     else if (boxNumber == 2) {
-        playerTwo = true;
+        playerAviable[1]= true;
     }
     else if (boxNumber == 3) {
-        playerThree = true;
+        playerAviable[2] = true;
     }
     else {
-        playerFour = true;
+        playerAviable[3] = true;
     }
     return box;
 }
@@ -247,14 +252,51 @@ function stopAnimateBox(box) {
     box.style.animation =  ``;
 }
 
-//Entity mover
-function entityMove(player, entityNumber, position) {
+//action Listener for entity of given player
+function entityAction(player, Dot) {
+    for(let i=0; i < 4; i++) {
+        console.log(`player ${player} enttiy ${i} is ${entityAviable[player - 1][i]}`)
+    }
+    for(let i=0; i < 4; i++) {
+        if (entityAviable[player - 1][i] == true) {
+            document.querySelector(`#entity${player}${i}`).addEventListener('click', function test() {
+                if(entityAviable[player-1][i] == true) {
+                    entityMove(player, i, Dot);
+                    entityAviable[player - 1][0] = false;
+                    entityAviable[player - 1][1] = false;
+                    entityAviable[player - 1][2] = false;
+                    entityAviable[player - 1][3] = false;
+                    //if the dots are 6 then repeat one more time
+                    if(true) {
+                        makeGameGoing(player);
+                    }
+                }
+            });
+        }
+    }
+    return 0;
+}
 
+
+//Entity mover
+function entityMove(player, entityNumber, Dot) {
+    console.log(`player ${player} entity ${entityNumber + 1} moved ${Dot} when clicked`);
 }
 
 //position adder 
 function entityPosition(player, enityNumber, offset) {
 
+}
+
+//which entity should move form particular player
+function entityChecker(player) {
+    console.log(`player ${player} entity checker worked`);
+    if (true) { //this should be playerDot == 6
+        entityAviable[player - 1][0] = true;
+        entityAviable[player - 1][1] = true;
+        entityAviable[player - 1][2] = true;
+        entityAviable[player - 1][3] = true;
+    }
 }
 //game runner ======================================================
 function gameRunner(numberOfPlayers) {
@@ -288,69 +330,68 @@ function goGame(numOfPlayers) {
 //starting the event listner =========================================
 function startEventListner() {
     document.querySelector("#rotationBox0").addEventListener("click", ()=> {
-        if (playerOne == true) {
-            document.querySelector("#rotationBox0 .dice").remove();
-            playerOneDot = randomFunction(6); //drawing random number
-            makeDice(0, playerOneDot);
-            stopAnimateBox(document.querySelector("#rotationBox0"));
-            playerTwo = true;
-            entityEventListner(1);
-            animateBox(2);
-            playerOne = false;
+        if (playerAviable[0] == true) {
+            makeGameGoing(1);
         }
     });
     document.querySelector("#rotationBox1").addEventListener("click", ()=> {
-        if (playerTwo == true) {
-            playerTwo = false;
+        if (playerAviable[1] == true) {
+            playerAviable[1] = false;
             document.querySelector("#rotationBox1 .dice").remove();
-            playerTwoDot = randomFunction(6); //drawing random number
-            makeDice(1, playerTwoDot);
+            playersDot[1] = randomFunction(6); //drawing random number
+            makeDice(1, playersDot[1]);
             stopAnimateBox(document.querySelector("#rotationBox1"));
             if (numberOfPlayers == 2){
-                playerOne = true;
+                playerAviable[0] = true;
                 animateBox(1);
             }
             else {
-                playerThree = true;
+                playerAviable[2] = true;
                 animateBox(3);
             }
         }
     });
-    document.querySelector("#rotationBox2").addEventListener("click", ()=> {
-        if (playerThree == true) {
-            playerThree = false;
-            document.querySelector("#rotationBox2 .dice").remove();
-            playerThreeDot = randomFunction(6); //drawing random number
-            makeDice(2, playerThreeDot);
-            stopAnimateBox(document.querySelector("#rotationBox2"));
-            if (numberOfPlayers == 3){
-                playerOne = true;
-                animateBox(1);
+    if (numberOfPlayers >= 3) {
+        document.querySelector("#rotationBox2").addEventListener("click", ()=> {
+            if (playerAviable[2] == true) {
+                playerAviable[2] = false;
+                document.qerySelector("#rotationBox2 .dice").remove();
+                playersDot[2] = randomFunction(6); //drawing random number
+                makeDice(2, playersDot[2]);
+                stopAnimateBox(document.querySelector("#rotationBox2"));
+                if (numberOfPlayers == 3){
+                    playerAviable[0] = true;
+                    animateBox(1);
+                }
+                else {
+                    playerAviable[3] = true;
+                    animateBox(4);
+                }
             }
-            else {
-                playerFour = true;
-                animateBox(4);
-            }
-        }
-    });
-    document.querySelector("#rotationBox3").addEventListener("click", ()=> {
-        if (playerFour == true) {
-            playerFour = false;
-            document.querySelector("#rotationBox3 .dice").remove();
-            playerFourDot = randomFunction(6); //drawing random number
-            makeDice(3, playerFourDot);
-            stopAnimateBox(document.querySelector("#rotationBox3"));
-            playerOne = true;
-            animateBox(1)
-        }
-    });
-}
-
-//entity Event Listner
-function entityEventListner(player) {
-    for(let entity of document.querySelectorAll(`.entityClass${player}`)) {
-        entity.addEventListener('click', ()=> {
-
         });
     }
-} 
+    if (numberOfPlayers == 4) {
+        document.querySelector("#rotationBox3").addEventListener("click", ()=> {
+            if (playerAviable[3] == true) {
+                playerAviable[3] = false;
+                document.querySelector("#rotationBox3 .dice").remove();
+                playersDot[3] = randomFunction(6); //drawing random number
+                makeDice(3, playersDot[3]);
+                stopAnimateBox(document.querySelector("#rotationBox3"));
+                playerAviable[0] = true;
+                animateBox(1)
+            }
+        });
+    }
+}
+
+function makeGameGoing(player) {
+    document.querySelector("#rotationBox" + (player-1) + " .dice").remove();
+    playersDot[player-1] = randomFunction(6); //drawing random number
+    makeDice(player-1, playersDot[0]);
+    stopAnimateBox(document.querySelector("#rotationBox" + (player-1) +""));
+        
+    //game Logic goes here
+    entityChecker(player);
+    entityAction(1, playersDot[player-1]);
+}
