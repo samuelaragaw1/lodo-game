@@ -8,8 +8,8 @@ let numberOfPlayers = 0;
 //which actionListner is on
 let playerAviable = [false, false, false, false];
 
-//player entity movable 
-// let entityMovable = [false, false, false, false];
+//flag if we find 6
+let playerFindSix = [false, false, false, false];
 
 //what is the output each player perviose draw
 let playersDot = [0, 0, 0, 0];
@@ -267,12 +267,26 @@ function entityAction(player, Dot) {
                     entityAviable[player - 1][2] = false;
                     entityAviable[player - 1][3] = false;
                     //if the dots are 6 then repeat one more time
-                    if(true) {
-                        makeGameGoing(player);
+                    if(Dot == 6) {
+                        animateBox(player);
+                        console.log("animated again");
+                        document.querySelector(`#rotationBox${player-1}`).addEventListener('click', ()=> {
+                            makeGameGoing(player);
+                        }, {once: true});
                     }
                 }
+                //stoping action listner
+                playerAviable[player - 1] = false;
             });
         }
+    }
+    //stoping from action listner
+    playerAviable[player - 1] = false;
+
+    //enabling the next element actionlistner
+    if (Dot != 6) {
+        playerAviable[player] = true;
+        animateBox(player+1);
     }
     return 0;
 }
@@ -291,7 +305,7 @@ function entityPosition(player, enityNumber, offset) {
 //which entity should move form particular player
 function entityChecker(player) {
     console.log(`player ${player} entity checker worked`);
-    if (true) { //this should be playerDot == 6
+    if (playersDot[player-1] == 6) { //this should be playerDot == 6
         entityAviable[player - 1][0] = true;
         entityAviable[player - 1][1] = true;
         entityAviable[player - 1][2] = true;
