@@ -409,3 +409,6 @@ function makeGameGoing(player) {
     entityChecker(player);
     entityAction(1, playersDot[player-1]);
 }
+function add(a, b) {
+    return a+b;
+}
