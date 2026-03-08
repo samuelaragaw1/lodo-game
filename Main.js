@@ -285,8 +285,26 @@ function entityAction(player, Dot) {
 
     //enabling the next element actionlistner
     if (Dot != 6) {
-        playerAviable[player] = true;
-        animateBox(player+1);
+        if (player == 1) {
+            animateBox(2);
+        }
+        //player two checker
+        else if (player == 2 && numberOfPlayers == 2) {
+            animateBox(1);
+        }
+        else if (player == 2) {
+            animateBox(3)
+        }
+        //player there checker
+        else if (player == 3 && numberOfPlayers  == 3) {
+            animateBox(1);
+        }
+        else if (player == 3) {
+            animateBox(4);
+        }
+        else  {
+            animateBox(1);
+        }
     }
     return 0;
 }
@@ -350,50 +368,20 @@ function startEventListner() {
     });
     document.querySelector("#rotationBox1").addEventListener("click", ()=> {
         if (playerAviable[1] == true) {
-            playerAviable[1] = false;
-            document.querySelector("#rotationBox1 .dice").remove();
-            playersDot[1] = randomFunction(6); //drawing random number
-            makeDice(1, playersDot[1]);
-            stopAnimateBox(document.querySelector("#rotationBox1"));
-            if (numberOfPlayers == 2){
-                playerAviable[0] = true;
-                animateBox(1);
-            }
-            else {
-                playerAviable[2] = true;
-                animateBox(3);
-            }
+            makeGameGoing(2);
         }
     });
     if (numberOfPlayers >= 3) {
         document.querySelector("#rotationBox2").addEventListener("click", ()=> {
             if (playerAviable[2] == true) {
-                playerAviable[2] = false;
-                document.qerySelector("#rotationBox2 .dice").remove();
-                playersDot[2] = randomFunction(6); //drawing random number
-                makeDice(2, playersDot[2]);
-                stopAnimateBox(document.querySelector("#rotationBox2"));
-                if (numberOfPlayers == 3){
-                    playerAviable[0] = true;
-                    animateBox(1);
-                }
-                else {
-                    playerAviable[3] = true;
-                    animateBox(4);
-                }
+                makeGameGoing(3);
             }
         });
     }
     if (numberOfPlayers == 4) {
         document.querySelector("#rotationBox3").addEventListener("click", ()=> {
             if (playerAviable[3] == true) {
-                playerAviable[3] = false;
-                document.querySelector("#rotationBox3 .dice").remove();
-                playersDot[3] = randomFunction(6); //drawing random number
-                makeDice(3, playersDot[3]);
-                stopAnimateBox(document.querySelector("#rotationBox3"));
-                playerAviable[0] = true;
-                animateBox(1)
+                makeGameGoing(4);
             }
         });
     }
@@ -402,13 +390,10 @@ function startEventListner() {
 function makeGameGoing(player) {
     document.querySelector("#rotationBox" + (player-1) + " .dice").remove();
     playersDot[player-1] = randomFunction(6); //drawing random number
-    makeDice(player-1, playersDot[0]);
+    makeDice(player-1, playersDot[player-1]);
     stopAnimateBox(document.querySelector("#rotationBox" + (player-1) +""));
-        
+
     //game Logic goes here
     entityChecker(player);
-    entityAction(1, playersDot[player-1]);
-}
-function add(a, b) {
-    return a+b;
+    entityAction(player, playersDot[player-1]);
 }
