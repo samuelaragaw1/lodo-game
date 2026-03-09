@@ -2,6 +2,9 @@
 const gameName = document.createElement("div");
 const gameMenu = document.createElement("div");
 
+//is it the time to animate the next player
+let keepGoing = true;
+
 //what is the number of players
 let numberOfPlayers = 0;
 
@@ -15,11 +18,10 @@ let playerFindSix = [false, false, false, false];
 let playersDot = [0, 0, 0, 0];
 
 //the current position of entity
-let playerOnePostion = [0, 0, 0, 0];
-let playerTwoPosition  = [0, 0, 0, 0];
-let playerThreePosition  = [0, 0, 0, 0];
-let playerFourPosition = [0, 0, 0, 0];
-
+let playerPostion = [[0, 0, 0, 0], 
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0]];
 //which entity is movable
 let entityAviable  = [[false, false, false, false], 
                       [false, false, false, false], 
@@ -231,7 +233,7 @@ function randomFunction(max) {
 //animation for the box
 function animateBox(boxNumber) {
     const box = document.querySelector(`#rotationBox${boxNumber-1}`); 
-    box.style.animation =  `animationBox${boxNumber-1} 2.5s infinite`;
+    box.style.animation =  `animationBox${boxNumber-1} 1.7s infinite`;
     if (boxNumber == 1) {
         playerAviable[0] = true;
     }
@@ -252,27 +254,81 @@ function stopAnimateBox(box) {
     box.style.animation =  ``;
 }
 
+//entity background animation
+function entityAnimation(player, entityNumber, animate) {
+    const entity = document.querySelector(`#entity${player}${entityNumber}`);
+    if(animate) { 
+        entity.style.animation =  `entity_animation 1s infinite`;
+    }
+    else {
+        entity.style.animation =  ``;
+    }
+}
+
 //action Listener for entity of given player
 function entityAction(player, Dot) {
     for(let i=0; i < 4; i++) {
-        console.log(`player ${player} enttiy ${i} is ${entityAviable[player - 1][i]}`)
-    }
-    for(let i=0; i < 4; i++) {
         if (entityAviable[player - 1][i] == true) {
+            keepGoing = false;
             document.querySelector(`#entity${player}${i}`).addEventListener('click', function test() {
                 if(entityAviable[player-1][i] == true) {
-                    entityMove(player, i, Dot);
+                    keepGoing = true;
+                    entityMove(player, i, playersDot[player -1]);
+                    //where does it moved
+                    console.log(`===================================================
+                                player ${player} entity ${i} moved to ${playerPostion[player-1][i]}
+                                ====================================================`)
+                    ;
+                    for(let j = 0; j < 4; j++) {
+                        console.log("*************** player " + (j+1) + " ***************");
+                        for(let k = 0;k < 4;k++){
+                            console.log(`player ${j+1} entity ${k} position ${playerPostion[j][k]}`);
+                        }
+                    }
+
+                    //make animation stop
+                    entityAnimation(player, 0, false);
+                    entityAnimation(player, 1, false);
+                    entityAnimation(player, 2, false);
+                    entityAnimation(player, 3, false);
+
+                    //make the aviablity false 
                     entityAviable[player - 1][0] = false;
                     entityAviable[player - 1][1] = false;
                     entityAviable[player - 1][2] = false;
                     entityAviable[player - 1][3] = false;
+
                     //if the dots are 6 then repeat one more time
-                    if(Dot == 6) {
+                    if(playersDot[player-1] == 6) {
                         animateBox(player);
                         console.log("animated again");
                         document.querySelector(`#rotationBox${player-1}`).addEventListener('click', ()=> {
                             makeGameGoing(player);
                         }, {once: true});
+                    }
+
+                    //making the game going to next iteration
+                    if (playersDot[player -1] != 6 && keepGoing) {
+                        if (player == 1) {
+                            animateBox(2);
+                        }
+                        //player two checker
+                        else if (player == 2 && numberOfPlayers == 2) {
+                            animateBox(1);
+                        }
+                        else if (player == 2) {
+                            animateBox(3)
+                        }
+                        //player there checker
+                        else if (player == 3 && numberOfPlayers  == 3) {
+                            animateBox(1);
+                        }
+                        else if (player == 3) {
+                            animateBox(4);
+                        }
+                        else  {
+                            animateBox(1);
+                        }
                     }
                 }
                 //stoping action listner
@@ -284,7 +340,7 @@ function entityAction(player, Dot) {
     playerAviable[player - 1] = false;
 
     //enabling the next element actionlistner
-    if (Dot != 6) {
+    if (playersDot[player -1] != 6 && keepGoing) {
         if (player == 1) {
             animateBox(2);
         }
@@ -312,7 +368,51 @@ function entityAction(player, Dot) {
 
 //Entity mover
 function entityMove(player, entityNumber, Dot) {
-    console.log(`player ${player} entity ${entityNumber + 1} moved ${Dot} when clicked`);
+    let position = playerPostion[player-1][entityNumber]
+    if (player == 1) {
+        if (position == 0) {
+            playerPostion[player-1][entityNumber] = 1;
+        }
+        else if (position >= 1 && position <= 51) {
+            playerPostion[player-1][entityNumber] = position + Dot;
+        }
+        else {
+            playerPostion[player-1][entityNumber] = 57;
+        }
+    }
+    if (player == 2) {
+        if (position == 0) {
+            playerPostion[player-1][entityNumber] = 1;
+        }
+        else if (position >= 1 && position <= 51) {
+            playerPostion[player-1][entityNumber] = position + Dot;
+        }
+        else {
+            playerPostion[player-1][entityNumber] = 57;
+        }
+    }
+    if (player == 3) {
+        if (position == 0) {
+            playerPostion[player-1][entityNumber] = 1;
+        }
+        else if (position >= 1 && position <= 51) {
+            playerPostion[player-1][entityNumber] = position + Dot;
+        }
+        else {
+            playerPostion[player-1][entityNumber] = 57;
+        }
+    }
+    if (player == 4) {
+        if (position == 0) {
+            playerPostion[player-1][entityNumber] = 1;
+        }
+        else if (position >= 1 && position <= 51) {
+            playerPostion[player-1][entityNumber] = position + Dot;
+        }
+        else {
+            playerPostion[player-1][entityNumber] = 57;
+        }
+    }
 }
 
 //position adder 
@@ -322,12 +422,19 @@ function entityPosition(player, enityNumber, offset) {
 
 //which entity should move form particular player
 function entityChecker(player) {
-    console.log(`player ${player} entity checker worked`);
-    if (playersDot[player-1] == 6) { //this should be playerDot == 6
-        entityAviable[player - 1][0] = true;
-        entityAviable[player - 1][1] = true;
-        entityAviable[player - 1][2] = true;
-        entityAviable[player - 1][3] = true;
+    for(let i = 0; i < 4;i++) {
+        if(playerPostion[player-1][i] <= 51 && playerPostion[player -1][i] >= 1) {
+            entityAviable[player-1][i] = true;
+            entityAnimation(player, i, true);
+        }
+        else if (playerPostion[player-1][i] == 0 && playersDot[player-1] == 6) {
+            entityAviable[player-1][i] = true;
+            entityAnimation(player, i, true);           
+        }
+        else if (playerPostion[player-1][i] > 51 && (57-playerPostion[player-1][i])%playersDot[player-1]) {
+            entityAviable[player-1][i] = true;
+            entityAnimation(player, i, true);
+        }
     }
 }
 //game runner ======================================================

@@ -262,3 +262,15 @@ html {
 .entityClass4 {
     background-image: radial-gradient(blue 3.75px,white 7.25px, blue  8.85px, blue 11.5px, black 12px);
 }
+
+@keyframes entity_animation {
+    0% {
+        box-shadow: 0px 0px 0px black;
+    }
+    50% {
+        box-shadow: 0px 0px 20px black;
+    }
+    100% {
+        box-shadow: 0px 0px 0px black;
+    }
+}

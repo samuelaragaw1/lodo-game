@@ -1,2 +1,5 @@
 - Finish the Entity generation[Finished]
-- Finish the Entity animation[in process]
+- Finish the Entity animation[in progress]
+    - entity animation logic without returing entity[Done]
+    - animation placement[in progress]
+    - entity animation[in progress]
