@@ -5,6 +5,11 @@ const gameMenu = document.createElement("div");
 //is it the time to animate the next player
 let keepGoing = true;
 
+//animation placemet===================================================
+//player One
+
+//=====================================================================
+
 //what is the number of players
 let numberOfPlayers = 0;
 
@@ -18,10 +23,10 @@ let playerFindSix = [false, false, false, false];
 let playersDot = [0, 0, 0, 0];
 
 //the current position of entity
-let playerPostion = [[0, 0, 0, 0], 
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0]];
+let playerPostion = [[-1, -1, -1, -1], 
+                    [-2, -2, -2, -2],
+                    [-3, -3, -3, -3],
+                    [-4, -4, -4, -4]];
 //which entity is movable
 let entityAviable  = [[false, false, false, false], 
                       [false, false, false, false], 
@@ -366,51 +371,102 @@ function entityAction(player, Dot) {
 }
 
 
-//Entity mover
+//Entity mover=========================================================
 function entityMove(player, entityNumber, Dot) {
     let position = playerPostion[player-1][entityNumber]
     if (player == 1) {
-        if (position == 0) {
+        if (position == -1) {
             playerPostion[player-1][entityNumber] = 1;
         }
         else if (position >= 1 && position <= 51) {
             playerPostion[player-1][entityNumber] = position + Dot;
         }
         else {
-            playerPostion[player-1][entityNumber] = 57;
+            playerPostion[player-1][entityNumber] = 57 + Dot;
         }
     }
-    if (player == 2) {
-        if (position == 0) {
-            playerPostion[player-1][entityNumber] = 1;
+    else if (player == 2) {
+        if (position == -2) {
+            playerPostion[player-1][entityNumber] = 14;
         }
-        else if (position >= 1 && position <= 51) {
+        //transilating form 51 to 0
+        else if (position >= 14 && position <= 45) {
             playerPostion[player-1][entityNumber] = position + Dot;
         }
+        else if (position >= 46 && position <= 51 && (51 - position) >= Dot){
+            playerPostion[player-1][entityNumber] = position + Dot;
+        }
+        else if (position >= 46 && position <= 51 && (51 - position) < Dot) {
+            playerPostion[player-1][entityNumber] = Dot - (51 - position) -1;
+        }
+        //transilating from 12 to 58
+        else if (position >= 0 && position <= 6) {
+            playerPostion[player-1][entityNumber] = position + Dot;
+        }
+        else if (position >= 7 && position <= 12 && (12 - position) >= Dot) {
+            playerPostion[player-1][entityNumber] = position + Dot;
+        }
+        else if (position >= 7 && position <= 12 && (12 - position) < Dot) {
+            playerPostion[player-1][entityNumber] = (12 - position) -1 + 58;
+        }
         else {
-            playerPostion[player-1][entityNumber] = 57;
+            playerPostion[player-1][entityNumber] = 63;
         }
     }
-    if (player == 3) {
-        if (position == 0) {
-            playerPostion[player-1][entityNumber] = 1;
+    else if (player == 3) {
+        if (position == -3) {
+            playerPostion[player-1][entityNumber] = 27;
         }
-        else if (position >= 1 && position <= 51) {
+        //transilating form 51 to 0
+        else if (position >= 27 && position <= 45) {
             playerPostion[player-1][entityNumber] = position + Dot;
         }
+        else if (position >= 46 && position <= 51 && (51 - position) >= Dot){
+            playerPostion[player-1][entityNumber] = position + Dot;
+        }
+        else if (position >= 46 && position <= 51 && (51 - position) < Dot) {
+            playerPostion[player-1][entityNumber] = Dot - (51 - position) -1;
+        }
+        //transilating from 25 to 64
+        else if (position >= 0 && position <= 19) {
+            playerPostion[player-1][entityNumber] = position + Dot;
+        }
+        else if (position >= 20 && position <= 25 && (25 - position) >= Dot) {
+            playerPostion[player-1][entityNumber] = position + Dot;
+        }
+        else if (position >= 20 && position <= 25 && (25 - position) < Dot) {
+            playerPostion[player-1][entityNumber] = (25 - position) -1 + 64;
+        }
         else {
-            playerPostion[player-1][entityNumber] = 57;
+            playerPostion[player-1][entityNumber] = 69;
         }
     }
-    if (player == 4) {
-        if (position == 0) {
-            playerPostion[player-1][entityNumber] = 1;
+    else {
+        if (position == -4) {
+            playerPostion[player-1][entityNumber] = 40;
         }
-        else if (position >= 1 && position <= 51) {
+        //transilating form 51 to 0
+        else if (position >= 40 && position <= 45) {
             playerPostion[player-1][entityNumber] = position + Dot;
         }
+        else if (position >= 46 && position <= 51 && (51 - position) >= Dot){
+            playerPostion[player-1][entityNumber] = position + Dot;
+        }
+        else if (position >= 46 && position <= 51 && (51 - position) < Dot) {
+            playerPostion[player-1][entityNumber] = Dot - (51 - position) -1;
+        }
+        //transilating from 38 to 70
+        else if (position >= 0 && position <= 32) {
+            playerPostion[player-1][entityNumber] = position + Dot;
+        }
+        else if (position >= 33 && position <= 38 && (38 - position) >= Dot) {
+            playerPostion[player-1][entityNumber] = position + Dot;
+        }
+        else if (position >= 33 && position <= 38 && (38 - position) < Dot) {
+            playerPostion[player-1][entityNumber] = (38 - position) -1 + 70;
+        }
         else {
-            playerPostion[player-1][entityNumber] = 57;
+            playerPostion[player-1][entityNumber] = 75;
         }
     }
 }
@@ -420,20 +476,77 @@ function entityPosition(player, enityNumber, offset) {
 
 }
 
-//which entity should move form particular player
+//which entity should move form particular player=======================
 function entityChecker(player) {
     for(let i = 0; i < 4;i++) {
-        if(playerPostion[player-1][i] <= 51 && playerPostion[player -1][i] >= 1) {
-            entityAviable[player-1][i] = true;
-            entityAnimation(player, i, true);
+        if (player == 1) {
+            if(playerPostion[player-1][i] <= 51 && playerPostion[player -1][i] >= 1) {
+                entityAviable[player-1][i] = true;
+                entityAnimation(player, i, true);
+            }
+            else if (playerPostion[player-1][i] == -1 && playersDot[player-1] == 6) {
+                entityAviable[player-1][i] = true;
+                entityAnimation(player, i, true);           
+            }
+            else if (playerPostion[player-1][i] > 51 && (57-playerPostion[player-1][i]) >= playersDot[player - 1]) {
+                entityAviable[player-1][i] = true;
+                entityAnimation(player, i, true);
+            }
         }
-        else if (playerPostion[player-1][i] == 0 && playersDot[player-1] == 6) {
-            entityAviable[player-1][i] = true;
-            entityAnimation(player, i, true);           
+        else if (player == 2) {
+            if(playerPostion[player-1][i] <= 51 && playerPostion[player -1][i] >= 14) {
+                entityAviable[player-1][i] = true;
+                entityAnimation(player, i, true);
+            }
+            else if (playerPostion[player-1][i] == -2 && playersDot[player-1] == 6) {
+                entityAviable[player-1][i] = true;
+                entityAnimation(player, i, true);           
+            }
+            else if (playerPostion[player-1][i] >= 0 && playerPostion[player-1][i] <= 12) {
+                entityAviable[player-1][i] = true;
+                entityAnimation(player, i, true);
+            }
+            else if (playerPostion[player-1][i] >= 58 && (63- playerPostion[player-1][i]) >= playersDot[player - 1]) {
+                entityAviable[player-1][i] = true;
+                entityAnimation(player, i, true);
+            }
         }
-        else if (playerPostion[player-1][i] > 51 && (57-playerPostion[player-1][i])%playersDot[player-1]) {
-            entityAviable[player-1][i] = true;
-            entityAnimation(player, i, true);
+        else if (player == 3) {
+            if(playerPostion[player-1][i] <= 51 && playerPostion[player -1][i] >= 27) {
+                entityAviable[player-1][i] = true;
+                entityAnimation(player, i, true);
+            }
+            //at the starting of player 3
+            else if (playerPostion[player-1][i] == -3 && playersDot[player-1] == 6) {
+                entityAviable[player-1][i] = true;
+                entityAnimation(player, i, true);           
+            }
+            else if (playerPostion[player-1][i] >= 0 && playerPostion[player-1][i] <= 25) {
+                entityAviable[player-1][i] = true;
+                entityAnimation(player, i, true);
+            }
+            else if (playerPostion[player-1][i] >= 64 && (69- playerPostion[player-1][i]) >= playersDot[player - 1]) {
+                entityAviable[player-1][i] = true;
+                entityAnimation(player, i, true);
+            }
+        }
+        if (player == 4) {
+            if(playerPostion[player-1][i] <= 51 && playerPostion[player -1][i] >= 40) {
+                entityAviable[player-1][i] = true;
+                entityAnimation(player, i, true);
+            }
+            else if (playerPostion[player-1][i] == -4 && playersDot[player-1] == 6) {
+                entityAviable[player-1][i] = true;
+                entityAnimation(player, i, true);           
+            }
+            else if (playerPostion[player-1][i] >= 0 && playerPostion[player-1][i] <= 38) {
+                entityAviable[player-1][i] = true;
+                entityAnimation(player, i, true);
+            }
+            else if (playerPostion[player-1][i] >= 70 && (75- playerPostion[player-1][i]) >= playersDot[player - 1]) {
+                entityAviable[player-1][i] = true;
+                entityAnimation(player, i, true);
+            }
         }
     }
 }
