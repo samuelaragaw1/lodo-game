@@ -6,7 +6,51 @@ const gameMenu = document.createElement("div");
 let keepGoing = true;
 
 //animation placemet===================================================
-//player One
+//player entity positon 
+let entityActualPosition = 
+                        [[274, 69], 
+                        //0
+                        [274, 106], [274, 143],
+                        [274, 179], [274, 216], [274, 252],
+                        [237, 288], [201, 288], [168, 288],
+                        [128, 288], [92, 288], 
+                        //10
+                        [55, 288],
+                        [55, 325], [55, 361], [92, 361],
+                        [128, 361], [164, 361], [200, 361],
+                        [237, 361], [274, 398], [274, 435],
+                        //20
+                        [274, 471], [274, 508], [274, 543], 
+                        [274, 580], [310, 580], [347, 580],
+                        [347, 544], [347, 508],
+                        [347, 471], 
+                        [347, 435], 
+                        //30
+                        [347, 398],
+                        [383, 362], [419, 362], [456, 362],
+                        [493, 362], [529, 362], [565, 362],
+                        [565, 325], 
+                        [565, 289], [529, 289],
+                        //40
+                        [493, 289], [457, 289], [420, 289],
+                        [383, 289], [347, 252], [347, 216], 
+                        [347, 180], [347, 143], 
+                        [347, 106],
+                        [347, 70], 
+                        //50
+                        [310, 70], [310, 106],
+                        [310, 143], [310, 179], [310, 215],
+                        [310, 251], [310, 290], [92, 325],
+                        [128, 325], [164, 325], 
+                        //60
+                        [200, 325],
+                        [236, 325], [276, 325], [310, 544],
+                        [310, 508], [310, 471], [310, 435],
+                        [310, 399], 
+                        [310, 360], [529, 326],
+                        //70
+                        [492, 326], [456, 326], [420, 326],
+                        [383, 326], [345, 326]];
 
 //=====================================================================
 
@@ -84,6 +128,7 @@ function makeEntity(player) {
         entity.classList.add(`entityClass${player}`);
         entity.id = `entity${player}${i}`;
         //the placement of the entity
+        //we will use it for later ================================
         if (player == 1) {
             if (i == 0 ) {
                 entity.style.top = `${109}px`;
@@ -140,6 +185,7 @@ function makeEntity(player) {
             entity.style.top = `${438 + ((i-1)%2)*73}px`;
             entity.style.left =  `${453 + (i%2)*73}px`;
         }
+        //=========================================================
     }
     return 0;
 } 
@@ -377,103 +423,133 @@ function entityMove(player, entityNumber, Dot) {
     if (player == 1) {
         if (position == -1) {
             playerPostion[player-1][entityNumber] = 1;
+            moveTheEntity(player, entityNumber);
         }
         else if (position >= 1 && position <= 51) {
-            playerPostion[player-1][entityNumber] = position + Dot;
+            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
+            moveTheEntity(player, entityNumber);
         }
         else {
-            playerPostion[player-1][entityNumber] = 57 + Dot;
+            playerPostion[player-1][entityNumber] = playerPostion[player-1][entityNumber] + playersDot[player -1];
+            moveTheEntity(player, entityNumber);
         }
+        // if (position < 0 ) {
+        //     playerPostion[player -1][entityNumber] = 1;
+        //     moveTheEntity(player, entityNumber);
+        // }
+        // else {
+        //     playerPostion[player -1][entityNumber] = position + 1;
+        //     moveTheEntity(player, entityNumber);
+        // }
     }
     else if (player == 2) {
         if (position == -2) {
             playerPostion[player-1][entityNumber] = 14;
+            moveTheEntity(player, entityNumber);
         }
         //transilating form 51 to 0
         else if (position >= 14 && position <= 45) {
-            playerPostion[player-1][entityNumber] = position + Dot;
+            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
+            moveTheEntity(player, entityNumber);
         }
-        else if (position >= 46 && position <= 51 && (51 - position) >= Dot){
-            playerPostion[player-1][entityNumber] = position + Dot;
+        else if (position >= 46 && position <= 51 && (51 - position) >= playersDot[player -1]){
+            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
+            moveTheEntity(player, entityNumber);
         }
-        else if (position >= 46 && position <= 51 && (51 - position) < Dot) {
-            playerPostion[player-1][entityNumber] = Dot - (51 - position) -1;
+        else if (position >= 46 && position <= 51 && (51 - position) < playersDot[player -1]) {
+            playerPostion[player-1][entityNumber] = playersDot[player -1] - (51 - position) -1;
+            moveTheEntity(player, entityNumber);
         }
         //transilating from 12 to 58
         else if (position >= 0 && position <= 6) {
-            playerPostion[player-1][entityNumber] = position + Dot;
+            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
+            moveTheEntity(player, entityNumber);
         }
-        else if (position >= 7 && position <= 12 && (12 - position) >= Dot) {
-            playerPostion[player-1][entityNumber] = position + Dot;
+        else if (position >= 7 && position <= 12 && (12 - position) >= playersDot[player -1]) {
+            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
+            moveTheEntity(player, entityNumber);
         }
-        else if (position >= 7 && position <= 12 && (12 - position) < Dot) {
+        else if (position >= 7 && position <= 12 && (12 - position) < playersDot[player -1]) {
             playerPostion[player-1][entityNumber] = (12 - position) -1 + 58;
+            moveTheEntity(player, entityNumber);
         }
         else {
-            playerPostion[player-1][entityNumber] = 63;
+            playerPostion[player-1][entityNumber] = playerPostion[player-1][entityNumber] + playersDot[player -1];
+            moveTheEntity(player, entityNumber);
         }
     }
     else if (player == 3) {
         if (position == -3) {
             playerPostion[player-1][entityNumber] = 27;
+            moveTheEntity(player, entityNumber);
         }
         //transilating form 51 to 0
         else if (position >= 27 && position <= 45) {
-            playerPostion[player-1][entityNumber] = position + Dot;
+            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
+            moveTheEntity(player, entityNumber);
         }
-        else if (position >= 46 && position <= 51 && (51 - position) >= Dot){
-            playerPostion[player-1][entityNumber] = position + Dot;
+        else if (position >= 46 && position <= 51 && (51 - position) >= playersDot[player -1]){
+            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
+            moveTheEntity(player, entityNumber);
         }
-        else if (position >= 46 && position <= 51 && (51 - position) < Dot) {
-            playerPostion[player-1][entityNumber] = Dot - (51 - position) -1;
+        else if (position >= 46 && position <= 51 && (51 - position) < playersDot[player -1]) {
+            playerPostion[player-1][entityNumber] = playersDot[player -1] - (51 - position) -1;
+            moveTheEntity(player, entityNumber);
         }
         //transilating from 25 to 64
         else if (position >= 0 && position <= 19) {
-            playerPostion[player-1][entityNumber] = position + Dot;
+            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
+            moveTheEntity(player, entityNumber);
         }
-        else if (position >= 20 && position <= 25 && (25 - position) >= Dot) {
-            playerPostion[player-1][entityNumber] = position + Dot;
+        else if (position >= 20 && position <= 25 && (25 - position) >= playersDot[player -1]) {
+            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
+            moveTheEntity(player, entityNumber);
         }
-        else if (position >= 20 && position <= 25 && (25 - position) < Dot) {
+        else if (position >= 20 && position <= 25 && (25 - position) < playersDot[player -1]) {
             playerPostion[player-1][entityNumber] = (25 - position) -1 + 64;
+            moveTheEntity(player, entityNumber);
         }
         else {
-            playerPostion[player-1][entityNumber] = 69;
+            playerPostion[player-1][entityNumber] = playerPostion[player-1][entityNumber] + playersDot[player -1];
+            moveTheEntity(player, entityNumber);
         }
     }
     else {
         if (position == -4) {
             playerPostion[player-1][entityNumber] = 40;
+            moveTheEntity(player, entityNumber);
         }
         //transilating form 51 to 0
         else if (position >= 40 && position <= 45) {
-            playerPostion[player-1][entityNumber] = position + Dot;
+            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
+            moveTheEntity(player, entityNumber);
         }
-        else if (position >= 46 && position <= 51 && (51 - position) >= Dot){
-            playerPostion[player-1][entityNumber] = position + Dot;
+        else if (position >= 46 && position <= 51 && (51 - position) >= playersDot[player -1]){
+            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
+            moveTheEntity(player, entityNumber);
         }
-        else if (position >= 46 && position <= 51 && (51 - position) < Dot) {
-            playerPostion[player-1][entityNumber] = Dot - (51 - position) -1;
+        else if (position >= 46 && position <= 51 && (51 - position) < playersDot[player -1]) {
+            playerPostion[player-1][entityNumber] = playersDot[player -1] - (51 - position) -1;
+            moveTheEntity(player, entityNumber);
         }
         //transilating from 38 to 70
         else if (position >= 0 && position <= 32) {
-            playerPostion[player-1][entityNumber] = position + Dot;
+            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
+            moveTheEntity(player, entityNumber);
         }
-        else if (position >= 33 && position <= 38 && (38 - position) >= Dot) {
-            playerPostion[player-1][entityNumber] = position + Dot;
+        else if (position >= 33 && position <= 38 && (38 - position) >= playersDot[player -1]) {
+            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
+            moveTheEntity(player, entityNumber);
         }
-        else if (position >= 33 && position <= 38 && (38 - position) < Dot) {
+        else if (position >= 33 && position <= 38 && (38 - position) < playersDot[player -1]) {
             playerPostion[player-1][entityNumber] = (38 - position) -1 + 70;
+            moveTheEntity(player, entityNumber);
         }
         else {
-            playerPostion[player-1][entityNumber] = 75;
+            playerPostion[player-1][entityNumber] = playerPostion[player-1][entityNumber] + playersDot[player -1];
+            moveTheEntity(player, entityNumber);
         }
     }
-}
-
-//position adder 
-function entityPosition(player, enityNumber, offset) {
-
 }
 
 //which entity should move form particular player=======================
@@ -616,4 +692,8 @@ function makeGameGoing(player) {
     //game Logic goes here
     entityChecker(player);
     entityAction(player, playersDot[player-1]);
+}
+function moveTheEntity(player, entityNumber) {
+    document.querySelector(`#entity${player}${entityNumber}`).style.top = `${entityActualPosition[playerPostion[player -1][entityNumber]][0]}px`;
+    document.querySelector(`#entity${player}${entityNumber}`).style.left = `${entityActualPosition[playerPostion[player -1][entityNumber]][1]}px`;
 }

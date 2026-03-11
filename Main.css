@@ -249,6 +249,8 @@ html {
     border-radius: 100%;
     left: 100px;
     background-color: white;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-in-out;
 }
 .entityClass1 {
     background-image: radial-gradient(red 3.75px,white 7.25px, red 8.85px, red 11.5px, black 12px);
