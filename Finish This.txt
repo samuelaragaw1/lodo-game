@@ -1,5 +1,17 @@
+=================== project progress ================================
 - Finish the Entity generation[Finished]
 - Finish the Entity animation[in progress]
     - entity animation logic without returing entity[Done]
-    - animation placement without returing[in progress]
+    - animation placement without returing[Done]
+    ==============Fixed===============
+        ##it doesn't work when i make the blue enitiy move when
+          if one entity already moved to final destinaition already
+        ##the postion where it doesn't move is 70
+    ==================================
+    - make the player to play again when he hit the target
     - entity animation[in progress]
+
+============================ Idea ====================================
+- instead of gigantice maze if else make the entity follow thier
+  perspective path to goal(make array the the entity follow to make it to
+  target).[Done]

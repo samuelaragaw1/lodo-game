@@ -5,6 +5,50 @@ const gameMenu = document.createElement("div");
 //is it the time to animate the next player
 let keepGoing = true;
 
+//the position that entity must follow
+//player One
+let entityFollowOne = [];
+for(let i = 1; i <= 57; i++) {
+    entityFollowOne.push(i);
+}
+//player two
+let entityFollowTwo = []
+for(let i = 14; i <= 51; i++) {
+    entityFollowTwo.push(i);
+}
+for(let i = 0; i <= 12; i++) {
+    entityFollowTwo.push(i);
+}
+for(let i = 58; i <= 63; i++) {
+    entityFollowTwo.push(i);
+}
+//player three
+let entityFollowThree = [];
+for(let i = 27; i <= 51; i++) {
+    entityFollowThree.push(i);
+}
+for(let i = 0; i <= 25; i++) {
+    entityFollowThree.push(i);
+}
+for(let i = 64; i <= 69; i++) {
+    entityFollowThree.push(i);
+}
+//player four
+let entityFollowFour = [];
+for(let i = 40; i <= 51; i++) {
+    entityFollowFour.push(i);
+}
+for(let i = 0; i <= 38; i++) {
+    entityFollowFour.push(i);
+}
+for(let i = 70; i <= 75; i++) {
+    entityFollowFour.push(i);
+}
+
+console.table(entityFollowOne);
+console.table(entityFollowTwo);
+console.table(entityFollowThree);
+console.table(entityFollowFour);
 //animation placemet===================================================
 //player entity positon 
 let entityActualPosition = 
@@ -381,9 +425,9 @@ function entityAction(player, Dot) {
                             animateBox(1);
                         }
                     }
+                    //stoping action listner
+                    playerAviable[player - 1] = false;
                 }
-                //stoping action listner
-                playerAviable[player - 1] = false;
             });
         }
     }
@@ -421,60 +465,24 @@ function entityAction(player, Dot) {
 function entityMove(player, entityNumber, Dot) {
     let position = playerPostion[player-1][entityNumber]
     if (player == 1) {
-        if (position == -1) {
+        if(position == -1) {
             playerPostion[player-1][entityNumber] = 1;
             moveTheEntity(player, entityNumber);
         }
-        else if (position >= 1 && position <= 51) {
-            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
-            moveTheEntity(player, entityNumber);
-        }
         else {
-            playerPostion[player-1][entityNumber] = playerPostion[player-1][entityNumber] + playersDot[player -1];
+            let index = entityFollowOne.indexOf(position);
+            playerPostion[player-1][entityNumber] = entityFollowOne[index + playersDot[player -1]];
             moveTheEntity(player, entityNumber);
         }
-        // if (position < 0 ) {
-        //     playerPostion[player -1][entityNumber] = 1;
-        //     moveTheEntity(player, entityNumber);
-        // }
-        // else {
-        //     playerPostion[player -1][entityNumber] = position + 1;
-        //     moveTheEntity(player, entityNumber);
-        // }
     }
     else if (player == 2) {
         if (position == -2) {
             playerPostion[player-1][entityNumber] = 14;
             moveTheEntity(player, entityNumber);
         }
-        //transilating form 51 to 0
-        else if (position >= 14 && position <= 45) {
-            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
-            moveTheEntity(player, entityNumber);
-        }
-        else if (position >= 46 && position <= 51 && (51 - position) >= playersDot[player -1]){
-            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
-            moveTheEntity(player, entityNumber);
-        }
-        else if (position >= 46 && position <= 51 && (51 - position) < playersDot[player -1]) {
-            playerPostion[player-1][entityNumber] = playersDot[player -1] - (51 - position) -1;
-            moveTheEntity(player, entityNumber);
-        }
-        //transilating from 12 to 58
-        else if (position >= 0 && position <= 6) {
-            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
-            moveTheEntity(player, entityNumber);
-        }
-        else if (position >= 7 && position <= 12 && (12 - position) >= playersDot[player -1]) {
-            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
-            moveTheEntity(player, entityNumber);
-        }
-        else if (position >= 7 && position <= 12 && (12 - position) < playersDot[player -1]) {
-            playerPostion[player-1][entityNumber] = (12 - position) -1 + 58;
-            moveTheEntity(player, entityNumber);
-        }
         else {
-            playerPostion[player-1][entityNumber] = playerPostion[player-1][entityNumber] + playersDot[player -1];
+            let index = entityFollowTwo.indexOf(position);
+            playerPostion[player-1][entityNumber] = entityFollowTwo[index + playersDot[player -1]];
             moveTheEntity(player, entityNumber);
         }
     }
@@ -484,33 +492,9 @@ function entityMove(player, entityNumber, Dot) {
             moveTheEntity(player, entityNumber);
         }
         //transilating form 51 to 0
-        else if (position >= 27 && position <= 45) {
-            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
-            moveTheEntity(player, entityNumber);
-        }
-        else if (position >= 46 && position <= 51 && (51 - position) >= playersDot[player -1]){
-            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
-            moveTheEntity(player, entityNumber);
-        }
-        else if (position >= 46 && position <= 51 && (51 - position) < playersDot[player -1]) {
-            playerPostion[player-1][entityNumber] = playersDot[player -1] - (51 - position) -1;
-            moveTheEntity(player, entityNumber);
-        }
-        //transilating from 25 to 64
-        else if (position >= 0 && position <= 19) {
-            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
-            moveTheEntity(player, entityNumber);
-        }
-        else if (position >= 20 && position <= 25 && (25 - position) >= playersDot[player -1]) {
-            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
-            moveTheEntity(player, entityNumber);
-        }
-        else if (position >= 20 && position <= 25 && (25 - position) < playersDot[player -1]) {
-            playerPostion[player-1][entityNumber] = (25 - position) -1 + 64;
-            moveTheEntity(player, entityNumber);
-        }
         else {
-            playerPostion[player-1][entityNumber] = playerPostion[player-1][entityNumber] + playersDot[player -1];
+            let index = entityFollowThree.indexOf(position);
+            playerPostion[player-1][entityNumber] = entityFollowThree[index + playersDot[player -1]];
             moveTheEntity(player, entityNumber);
         }
     }
@@ -518,38 +502,43 @@ function entityMove(player, entityNumber, Dot) {
         if (position == -4) {
             playerPostion[player-1][entityNumber] = 40;
             moveTheEntity(player, entityNumber);
-        }
+        }        
         //transilating form 51 to 0
-        else if (position >= 40 && position <= 45) {
-            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
-            moveTheEntity(player, entityNumber);
-        }
-        else if (position >= 46 && position <= 51 && (51 - position) >= playersDot[player -1]){
-            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
-            moveTheEntity(player, entityNumber);
-        }
-        else if (position >= 46 && position <= 51 && (51 - position) < playersDot[player -1]) {
-            playerPostion[player-1][entityNumber] = playersDot[player -1] - (51 - position) -1;
-            moveTheEntity(player, entityNumber);
-        }
-        //transilating from 38 to 70
-        else if (position >= 0 && position <= 32) {
-            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
-            moveTheEntity(player, entityNumber);
-        }
-        else if (position >= 33 && position <= 38 && (38 - position) >= playersDot[player -1]) {
-            playerPostion[player-1][entityNumber] = position + playersDot[player -1];
-            moveTheEntity(player, entityNumber);
-        }
-        else if (position >= 33 && position <= 38 && (38 - position) < playersDot[player -1]) {
-            playerPostion[player-1][entityNumber] = (38 - position) -1 + 70;
-            moveTheEntity(player, entityNumber);
-        }
         else {
-            playerPostion[player-1][entityNumber] = playerPostion[player-1][entityNumber] + playersDot[player -1];
+            let index = entityFollowFour.indexOf(position);
+            playerPostion[player-1][entityNumber] = entityFollowFour[index + playersDot[player -1]];
             moveTheEntity(player, entityNumber);
         }
     }
+
+    //making the same position entity positon them selves
+    //the end position
+    let positionEnd = playerPostion[player - 1][entityNumber];
+    //allowing at particular positions
+    if ((positionEnd == 48 
+        || positionEnd == 9 
+        || positionEnd == 22 
+        || positionEnd == 35 
+        || positionEnd == 57 
+        || positionEnd == 63 
+        || positionEnd == 75 
+        || positionEnd == 69 
+        || positionEnd == 40 
+        || positionEnd == 1 
+        || positionEnd == 14 
+        || positionEnd == 27)) {
+        let entitySimilar = [];
+        for(let i = 0; i < 4; i++) {
+            for(let j = 0; j < 4; j++) {
+                if (positionEnd == playerPostion[i][j] && !((player -1) == i && entityNumber == j)){
+                    entitySimilar.push([i, j]);
+                }
+            }
+        }
+        entityAligner(entitySimilar, player, entityNumber);
+    }
+
+
 }
 
 //which entity should move form particular player=======================
@@ -683,6 +672,7 @@ function startEventListner() {
     }
 }
 
+//main function that runs the game
 function makeGameGoing(player) {
     document.querySelector("#rotationBox" + (player-1) + " .dice").remove();
     playersDot[player-1] = randomFunction(6); //drawing random number
@@ -693,7 +683,57 @@ function makeGameGoing(player) {
     entityChecker(player);
     entityAction(player, playersDot[player-1]);
 }
+
+//entity mover that moves the entiy to x and y
 function moveTheEntity(player, entityNumber) {
     document.querySelector(`#entity${player}${entityNumber}`).style.top = `${entityActualPosition[playerPostion[player -1][entityNumber]][0]}px`;
     document.querySelector(`#entity${player}${entityNumber}`).style.left = `${entityActualPosition[playerPostion[player -1][entityNumber]][1]}px`;
+}
+
+//align the entity that are at the same position
+function entityAligner(array, player, entityNumber) {
+    //saving the positon left and top
+    let positionTop = entityActualPosition[playerPostion[player -1][entityNumber]][0];
+    let positionLeft = entityActualPosition[playerPostion[player -1][entityNumber]][1];
+
+    //choosing which type of alignment fits based on number of entity in similar position
+    if (array.length == 1) {
+        //the one on the array
+        document.querySelector(`#entity${array[0][0] + 1}${array[0][1]}`).style.top = `${positionTop + 7}px`;
+        document.querySelector(`#entity${array[0][0] + 1}${array[0][1]}`).style.scale = `0.5`;
+
+        //the moved player it self
+        document.querySelector(`#entity${player}${entityNumber}`).style.top = `${positionTop - 7}px`;
+        document.querySelector(`#entity${player}${entityNumber}`).style.scale = `0.5`;
+    }
+    else if (array.length == 2) {
+        //the one on the array
+        document.querySelector(`#entity${array[0][0] + 1}${array[0][1]}`).style.top = `${positionTop + 11}px`;
+        document.querySelector(`#entity${array[0][0] + 1}${array[0][1]}`).style.scale = `0.4`;
+
+        //the thrid on the array
+        document.querySelector(`#entity${array[1][0] + 1}${array[1][1]}`).style.top = `${positionTop + 1}px`;
+        document.querySelector(`#entity${array[1][0] + 1}${array[1][1]}`).style.scale = `0.4`;
+
+        //the moved player it self
+        document.querySelector(`#entity${player}${entityNumber}`).style.top = `${positionTop - 11}px`;
+        document.querySelector(`#entity${player}${entityNumber}`).style.scale = `0.4`;
+    }
+    else if (array.length == 3) {
+        //the one on the array
+        document.querySelector(`#entity${array[0][0] + 1}${array[0][1]}`).style.top = `${positionTop + 11}px`;
+        document.querySelector(`#entity${array[0][0] + 1}${array[0][1]}`).style.scale = `0.4`;
+
+        //the second on the array
+        document.querySelector(`#entity${array[1][0] + 1}${array[1][1]}`).style.top = `${positionTop + 1}px`;
+        document.querySelector(`#entity${array[1][0] + 1}${array[1][1]}`).style.scale = `0.4`;
+
+        //the third on the array
+        document.querySelector(`#entity${array[2][0] + 1}${array[2][1]}`).style.top = `${positionTop + 1}px`;
+        document.querySelector(`#entity${array[2][0] + 1}${array[2][1]}`).style.scale = `0.4`;
+
+        //the moved player it self
+        document.querySelector(`#entity${player}${entityNumber}`).style.top = `${positionTop - 11}px`;
+        document.querySelector(`#entity${player}${entityNumber}`).style.scale = `0.4`;
+    }
 }
