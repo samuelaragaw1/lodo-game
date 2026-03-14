@@ -369,17 +369,7 @@ function entityAction(player, Dot) {
                 if(entityAviable[player-1][i] == true) {
                     keepGoing = true;
                     entityMove(player, i, playersDot[player -1]);
-                    //where does it moved
-                    console.log(`===================================================
-                                player ${player} entity ${i} moved to ${playerPostion[player-1][i]}
-                                ====================================================`)
-                    ;
-                    for(let j = 0; j < 4; j++) {
-                        console.log("*************** player " + (j+1) + " ***************");
-                        for(let k = 0;k < 4;k++){
-                            console.log(`player ${j+1} entity ${k} position ${playerPostion[j][k]}`);
-                        }
-                    }
+                    
 
                     //make animation stop
                     entityAnimation(player, 0, false);
@@ -511,7 +501,7 @@ function entityMove(player, entityNumber, Dot) {
         }
     }
 
-    //making the same position entity positon them selves
+    //making the same position entity positon them selves ==========================================================
     //the end position
     let positionEnd = playerPostion[player - 1][entityNumber];
     //allowing at particular positions
@@ -536,6 +526,21 @@ function entityMove(player, entityNumber, Dot) {
             }
         }
         entityAligner(entitySimilar, player, entityNumber);
+    }
+    //return the entity at that position before
+    else {
+        let entitySimilar = [];
+        for(let i = 0; i < 4; i++) {
+            for(let j = 0; j < 4; j++) {
+                if (positionEnd == playerPostion[i][j] && !((player -1) == i && entityNumber == j)){
+                    entitySimilar.push([i, j]);
+                }
+            }
+        }
+
+        if (entitySimilar.length != 0) {
+            entityReturner(entitySimilar);
+        }
     }
 
 
@@ -735,5 +740,70 @@ function entityAligner(array, player, entityNumber) {
         //the moved player it self
         document.querySelector(`#entity${player}${entityNumber}`).style.top = `${positionTop - 11}px`;
         document.querySelector(`#entity${player}${entityNumber}`).style.scale = `0.4`;
+    }
+}
+
+//return the entity
+function entityReturner(array) {
+    let entity = document.querySelector(`#entity${array[0][0]+1}${array[0][1]}`);
+    if (array[0][0] == 0) {
+        if (array[0][1] == 0) {
+            entity.style.top = `${109}px`;
+            entity.style.left =  `${124}px`;
+        }
+        else if (array[0][1] == 3) {
+            entity.style.top = `${109 + 73}px`;
+            entity.style.left =  `${124 + 73}px`;
+        }
+        else {
+            entity.style.top = `${109 + ((i-1)%2)*73}px`;
+            entity.style.left =  `${124 + (i%2)*73}px`;
+        }
+        playerPostion[array[0][0]][array[0][1]] = -1;
+    }
+    else if(array[0][0] == 1) {
+        if (array[0][1] == 0) {
+            entity.style.top = `${109}px`;
+            entity.style.left =  `${453}px`;
+        }
+        else if (array[0][1] == 3) {
+            entity.style.top = `${109 + 73}px`;
+            entity.style.left =  `${453 + 73}px`;
+        }
+        else  {
+            entity.style.top = `${109 + ((i-1)%2)*73}px`;
+            entity.style.left =  `${453 + (i%2)*73}px`;
+        }
+        playerPostion[array[0][0]][array[0][1]] = -2;
+    }
+    else if(array[0][0] == 2) {
+        if (array[0][1] == 0) {
+            entity.style.top = `${438}px`;
+            entity.style.left = `${453}px`;
+        }
+        else if (array[0][1] == 3) {
+            entity.style.top = `${438 + 73}px`;
+            entity.style.left = `${453 +73}px`;
+        }
+        else {
+            entity.style.top = `${438 + ((i-1)%2)*73}px`;
+            entity.style.left =  `${453 + (i%2)*73}px`;
+        }
+        playerPostion[array[0][0]][array[0][1]] = -3;
+    }
+    else if(array[0][0] == 3) {
+        if (array[0][1] == 0) {
+            entity.style.top = `${438}px`;
+            entity.style.left =  `${124}px`;
+        }
+        else if (array[0][1] == 3) {
+            entity.style.top = `${438 + 73}px`;
+            entity.style.left =  `${124 + 73}px`;
+        }
+        else {
+            entity.style.top = `${438 + ((i-1)%2)*73}px`;
+            entity.style.left =  `${124 + (i%2)*73}px`;
+        }
+        playerPostion[array[0][0]][array[0][1]] = -4;
     }
 }
