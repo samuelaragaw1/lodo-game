@@ -392,8 +392,27 @@ function entityAction(player, Dot) {
                         }, {once: true});
                     }
 
+                    //making the player at the target play again
+                    let targetHit = false;
+                    if (player == 1 && keepGoing && playerPostion[player-1][i] == 57) {
+                        animateBox(1);
+                        targetHit = true;
+                    }
+                    else if (player == 2 && keepGoing && playerPostion[player-1][i] == 63) {
+                        animateBox(2);
+                        targetHit = true;
+                    }
+                    else if (player == 3 && keepGoing && playerPostion[player-1][i] == 69) {
+                        animateBox(3);
+                        targetHit = true;
+                    }
+                    else if (player == 4 && keepGoing && playerPostion[player-1][i] == 75) {
+                        animateBox(4);
+                        targetHit = true;
+                    }
+
                     //making the game going to next iteration
-                    if (playersDot[player -1] != 6 && keepGoing) {
+                    if (playersDot[player -1] != 6 && keepGoing && !(targetHit)) {
                         if (player == 1) {
                             animateBox(2);
                         }
@@ -415,8 +434,10 @@ function entityAction(player, Dot) {
                             animateBox(1);
                         }
                     }
-                    //stoping action listner
-                    playerAviable[player - 1] = false;
+
+                    //stoping action listner       
+                    // playerAviable[player - 1] = false;
+
                 }
             });
         }
@@ -527,6 +548,8 @@ function entityMove(player, entityNumber, Dot) {
         }
         entityAligner(entitySimilar, player, entityNumber);
     }
+
+
     //return the entity at that position before
     else {
         let entitySimilar = [];
@@ -755,9 +778,13 @@ function entityReturner(array) {
             entity.style.top = `${109 + 73}px`;
             entity.style.left =  `${124 + 73}px`;
         }
+        else if (array[0][1] == 2){
+            entity.style.top = `${109 + ((2-1)%2)*73}px`;
+            entity.style.left =  `${124 + (2%2)*73}px`;
+        }
         else {
-            entity.style.top = `${109 + ((i-1)%2)*73}px`;
-            entity.style.left =  `${124 + (i%2)*73}px`;
+            entity.style.top = `${109 + ((1-1)%2)*73}px`;
+            entity.style.left =  `${124 + (1%2)*73}px`;
         }
         playerPostion[array[0][0]][array[0][1]] = -1;
     }
@@ -770,9 +797,13 @@ function entityReturner(array) {
             entity.style.top = `${109 + 73}px`;
             entity.style.left =  `${453 + 73}px`;
         }
-        else  {
-            entity.style.top = `${109 + ((i-1)%2)*73}px`;
-            entity.style.left =  `${453 + (i%2)*73}px`;
+        else if (array[0][1] == 2){
+            entity.style.top = `${109 + ((2-1)%2)*73}px`;
+            entity.style.left =  `${453+ (2%2)*73}px`;
+        }
+        else {
+            entity.style.top = `${109 + ((1-1)%2)*73}px`;
+            entity.style.left =  `${453+ (1%2)*73}px`;
         }
         playerPostion[array[0][0]][array[0][1]] = -2;
     }
@@ -785,9 +816,13 @@ function entityReturner(array) {
             entity.style.top = `${438 + 73}px`;
             entity.style.left = `${453 +73}px`;
         }
+        else if (array[0][1] == 2){
+            entity.style.top = `${438 + ((2-1)%2)*73}px`;
+            entity.style.left =  `${453 + (2%2)*73}px`;
+        }
         else {
-            entity.style.top = `${438 + ((i-1)%2)*73}px`;
-            entity.style.left =  `${453 + (i%2)*73}px`;
+            entity.style.top = `${438 + ((1-1)%2)*73}px`;
+            entity.style.left =  `${453 + (1%2)*73}px`;
         }
         playerPostion[array[0][0]][array[0][1]] = -3;
     }
@@ -800,9 +835,13 @@ function entityReturner(array) {
             entity.style.top = `${438 + 73}px`;
             entity.style.left =  `${124 + 73}px`;
         }
+        else if (array[0][1] == 2) {
+            entity.style.top = `${438 + ((2-1)%2)*73}px`;
+            entity.style.left =  `${124 + (2%2)*73}px`;
+        }
         else {
-            entity.style.top = `${438 + ((i-1)%2)*73}px`;
-            entity.style.left =  `${124 + (i%2)*73}px`;
+            entity.style.top = `${438 + ((1-1)%2)*73}px`;
+            entity.style.left =  `${124 + (1%2)*73}px`;            
         }
         playerPostion[array[0][0]][array[0][1]] = -4;
     }

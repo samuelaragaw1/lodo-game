@@ -1,6 +1,6 @@
 =================== project progress ================================
 - Finish the Entity generation[Finished]
-- Finish the Entity animation[in progress]
+- Finish the Entity animation[Finished]
     - entity animation logic without returing entity[Done]
     - animation placement without returing[Done]
     ==============Fixed===============
@@ -8,10 +8,10 @@
           if one entity already moved to final destinaition already
         ##the postion where it doesn't move is 70
     ==================================
-    - make the player to play again when he hit the target
-    - entity animation[in progress]
-
+    - make the player to play again when he hit the target[Done]
+    - entity animation[Done]
 ============================ Idea ====================================
 - instead of gigantice maze if else make the entity follow thier
   perspective path to goal(make array the the entity follow to make it to
   target).[Done]
+- make the size adjust after the go out from safe zone
