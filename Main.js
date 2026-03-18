@@ -1,6 +1,9 @@
 //creating an element
-const gameName = document.createElement("div");
-const gameMenu = document.createElement("div");
+const gameName = document.createElement("divName");
+const gameMenu = document.createElement("divMenu");
+//winner array and the number entity on the target 
+let entitysOnTarget = [0, 0, 0, 0];
+let winner = []; 
 
 //is it the time to animate the next player
 let keepGoing = true;
@@ -44,11 +47,6 @@ for(let i = 0; i <= 38; i++) {
 for(let i = 70; i <= 75; i++) {
     entityFollowFour.push(i);
 }
-
-console.table(entityFollowOne);
-console.table(entityFollowTwo);
-console.table(entityFollowThree);
-console.table(entityFollowFour);
 //animation placemet===================================================
 //player entity positon 
 let entityActualPosition = 
@@ -143,6 +141,7 @@ document.querySelector("#one").addEventListener("click", ()=> {
     for (let i = 1; i <=2 ; i++) {
         makeEntity(i);
     }
+
     gameRunner(2);
 });
 document.querySelector("#two").addEventListener("click", ()=> {
@@ -435,9 +434,57 @@ function entityAction(player, Dot) {
                         }
                     }
 
-                    //stoping action listner       
-                    // playerAviable[player - 1] = false;
-
+                    //looping over the entitys to check if they are 
+                    //on the target
+                    let numberEntityOnTarget = 0;
+                    for(let i = 0; i < 4;i++) {
+                        if (player == 1){
+                            if(playerPostion[player-1][i] == 57) {
+                                numberEntityOnTarget++;
+                            }
+                        }
+                        else if (player == 2) {
+                            if (playerPostion[player-1][i] == 63) {
+                                numberEntityOnTarget++;
+                            }
+                        }
+                        else if (player == 3) {
+                            if (playerPostion[player-1][i] == 69) {
+                                numberEntityOnTarget++;
+                            }
+                        }
+                        else if (player == 4) {
+                            if (playerPostion[player-1][i] == 75) {
+                                numberEntityOnTarget++;
+                            }
+                        }
+                    }
+                    //save it on the array
+                    entitysOnTarget[player-1] = numberEntityOnTarget;
+                    if (numberOfPlayers == 2) {
+                        if (numberEntityOnTarget == 4 && winner.length == 0) {
+                            winner.push(player);
+                            winnerShow();
+                        }
+                    }
+                    else if (numberOfPlayers == 3) {
+                        if (numberEntityOnTarget == 4 && winner.length == 0) {
+                            winner.push(player);
+                        }
+                        else if (numberEntityOnTarget == 4 && winner.length == 1) {
+                            winner.push(player);
+                            winnerShow();
+                        }
+                    }
+                    else if (numberOfPlayers == 4) {
+                        if (numberEntityOnTarget == 4 && winner.length < 2) {
+                            winner.push(player);
+                        }
+                        else if (numberEntityOnTarget == 4 && winner.length == 2) {
+                            winner.push(player);
+                            winnerShow();
+                        }
+                    }
                 }
             });
         }
@@ -525,7 +572,29 @@ function entityMove(player, entityNumber, Dot) {
     //making the same position entity positon them selves ==========================================================
     //the end position
     let positionEnd = playerPostion[player - 1][entityNumber];
-    //allowing at particular positions
+    //making an array the store the filter and unfiltered but
+    //with similar position 
+    let entityWithSimilarPosition = [];
+    let entityWithSimilatPositionPlayer = [];
+    let entityWithSimilarPositionNonePlayer = [];
+    //collecting with similar position
+    for(let i = 0;i < 4; i++) {
+        for(let j = 0;j < 4;j++) {
+            if (positionEnd == playerPostion[i][j] && !((player -1) == i && entityNumber == j)){
+                entityWithSimilarPosition.push([i, j]);
+            }
+        }
+    }
+    //filitering similar position but is the player's it self or
+    //other players
+    for(let i = 0;i < entityWithSimilarPosition.length; i++) {
+        if(entityWithSimilarPosition[i][0] == (player-1)) {
+            entityWithSimilatPositionPlayer.push([entityWithSimilarPosition[i][0], entityWithSimilarPosition[i][1]]);
+        }
+        else {
+            entityWithSimilarPositionNonePlayer.push([entityWithSimilarPosition[i][0], entityWithSimilarPosition[i][1]]);
+        }
+    }
     if ((positionEnd == 48 
         || positionEnd == 9 
         || positionEnd == 22 
@@ -537,35 +606,50 @@ function entityMove(player, entityNumber, Dot) {
         || positionEnd == 40 
         || positionEnd == 1 
         || positionEnd == 14 
-        || positionEnd == 27)) {
-        let entitySimilar = [];
-        for(let i = 0; i < 4; i++) {
-            for(let j = 0; j < 4; j++) {
-                if (positionEnd == playerPostion[i][j] && !((player -1) == i && entityNumber == j)){
-                    entitySimilar.push([i, j]);
-                }
-            }
-        }
-        entityAligner(entitySimilar, player, entityNumber);
+        || positionEnd == 27
+        //first player safe zone
+        || positionEnd == 52
+        || positionEnd == 53
+        || positionEnd == 54
+        || positionEnd == 55
+        || positionEnd == 56
+        //second player safe zone
+        || positionEnd == 58
+        || positionEnd == 59
+        || positionEnd == 60
+        || positionEnd == 61
+        || positionEnd == 62
+        //thrid player safe zone
+        || positionEnd == 64
+        || positionEnd == 65
+        || positionEnd == 66
+        || positionEnd == 67
+        || positionEnd == 68
+        //four player safe zone
+        || positionEnd == 70
+        || positionEnd == 71
+        || positionEnd == 72
+        || positionEnd == 73
+        || positionEnd == 74
+        && entityWithSimilarPosition.length > 0
+        )) {
+        entityAligner(entityWithSimilarPosition, player, entityNumber);
     }
-
-
     //return the entity at that position before
-    else {
-        let entitySimilar = [];
-        for(let i = 0; i < 4; i++) {
-            for(let j = 0; j < 4; j++) {
-                if (positionEnd == playerPostion[i][j] && !((player -1) == i && entityNumber == j)){
-                    entitySimilar.push([i, j]);
-                }
-            }
+    else if (entityWithSimilarPosition.length > 0) {
+        //align the player's entity
+        if (entityWithSimilatPositionPlayer.length > 0) {
+            entityAligner(entityWithSimilatPositionPlayer, player, entityNumber);
         }
-
-        if (entitySimilar.length != 0) {
-            entityReturner(entitySimilar);
+        if (entityWithSimilarPositionNonePlayer.length > 0) {
+            //return the non-player
+            entityReturner(entityWithSimilarPositionNonePlayer);
         }
     }
 
+    if (entityWithSimilarPosition.length == 0) {
+        document.querySelector(`#entity${player}${entityNumber}`).style.scale = "1";
+    }
 
 }
 
@@ -845,4 +929,109 @@ function entityReturner(array) {
         }
         playerPostion[array[0][0]][array[0][1]] = -4;
     }
+}
+
+//winner function 
+function winnerShow() {
+    const winnerBox = document.createElement("winner");
+    
+    //looping through the winners
+    function winnersReturn(){
+        let string = '';
+        for (let i = 0; i < winner.length;i++){
+            string += `<div id="winner${i+1}">Player ${winner[i]}</div>`;
+        }
+        return string;
+    }
+    
+    //adjusting the color based on the winner
+    if (winner[0] == 1) {
+        winnerBox.style.backgroundColor = 'red';
+    }
+    else if (winner[0] == 2) {
+        winnerBox.style.backgroundColor = 'green';
+    }
+    else if (winner[0] == 3) {
+        winnerBox.style.backgroundColor = 'yellow';
+    }
+    else {
+        winnerBox.style.backgroundColor = 'blue';
+    }
+
+    //adding WinnerWinnerto the gameBox
+    document.querySelector("#gameBox").append(winnerBox);
+    winnerBox.innerHTML = 
+                    `<div id="winnerTitle" style="font-size:3rem">Winner</div>
+                    ${winnersReturn()}`;
+
+    //starting over after while
+    const removal = setTimeout(function (){
+        //switching mode=======================================
+        document.body.classList.remove("game_page");
+        document.body.classList.add("main_page");
+        document.querySelector("#gameBox").remove();
+
+        
+        document.querySelector(".main_page").append(gameName);
+        gameName.innerHTML = `<div id="m_game_name">Ludo Game</div>`;
+        
+        //making the game Menu
+        document.querySelector(".main_page").append(gameMenu);
+        gameMenu.innerHTML = `        
+                    <div id="m_con">
+                        <div id="m_intro">Game Menu</div>
+                        <div id="m_option_con">
+                            <div id="one" class="m_option">Two players</div>
+                            <div id="two" class="m_option">Three players</div>
+                            <div id="three" class="m_option">Four players</div>
+                        </div>
+                    </div>`;
+
+        
+        //removing every variable==================
+        winner = [];
+        entitysOnTarget = [0, 0, 0, 0];
+        keepGoing = true;
+        numberOfPlayers = 0;
+        playerAviable = [false, false, false, false];
+        playerFindSix = [false, false, false, false];
+        playersDot = [0, 0, 0, 0];
+        playerPostion = [[-1, -1, -1, -1], 
+                    [-2, -2, -2, -2],
+                    [-3, -3, -3, -3],
+                    [-4, -4, -4, -4]];
+        entityAviable  = [[false, false, false, false], 
+                      [false, false, false, false], 
+                      [false, false, false, false], 
+                      [false, false, false, false]];
+
+        //making action listner
+        //making event Listner for game menu options
+        document.querySelector("#one").addEventListener("click", ()=> {
+            numberOfPlayers = 2;
+            goGame(2); 
+            for (let i = 1; i <=2 ; i++) {
+                makeEntity(i);
+            }
+
+            gameRunner(2);
+        });
+        document.querySelector("#two").addEventListener("click", ()=> {
+            numberOfPlayers = 3;
+            goGame(3);
+            for (let i = 1; i <=3 ; i++) {
+                makeEntity(i);
+            }
+            gameRunner(3);
+        });
+        document.querySelector("#three").addEventListener("click", ()=> {
+            numberOfPlayers = 4;
+            goGame(4);
+            for (let i = 1; i <=4 ; i++) {
+                makeEntity(i);
+            }
+            gameRunner(4);
+        });
+    }, 5000);
+    return 0;
 }

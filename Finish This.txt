@@ -14,4 +14,4 @@
 - instead of gigantice maze if else make the entity follow thier
   perspective path to goal(make array the the entity follow to make it to
   target).[Done]
-- make the size adjust after the go out from safe zone
+- display when someone winners and restore everthing

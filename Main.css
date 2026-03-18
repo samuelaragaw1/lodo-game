@@ -58,6 +58,14 @@ html {
     background-clip: text;
     color: transparent;
 }
+divName {
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+divMenu {
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
 /*Options =========================================================*/
 .m_option {
     position: relative;
@@ -92,6 +100,23 @@ html {
     background-size: 550px 550px;
     background-repeat: no-repeat;
     background-position: center;
+}
+/*winner box====================================================*/
+winner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: inherit;
+    height: 200px;
+    top: 200px;
+    border: 2px solid black;
+    font-family: "stylish";
+}
+#winner1 {
+    font-size: 2rem;
+    animation: entity_animation 1.7s infinite;
 }
 /*Rotation Boxs=================================================*/
 /*box one ===================*/
